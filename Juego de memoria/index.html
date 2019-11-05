@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Memory game</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>  
+  <body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+    
+      class Card extends React.Component {
+        render() {
+        
+          const carta = {
+            width: '130px',
+            height: '200px',
+            borderRadius: '10px',
+            margin: '30px',
+            position: 'relative'
+          }
+          
+          var front = {}
+          var back = {}
+          
+          if(this.props.close){
+            front = {
+              cursor: 'pointer',
+              transition: '0.6s',
+              position: 'absolute',
+              transform: 'rotateY(0deg)'
+            }
+
+            back = {
+              backfaceVisibility: 'hidden',
+              display: 'flex',
+              transition: '0.6s',
+              position: 'absolute',
+              transform: 'rotateY(180deg)'
+            }
+          }else{
+            var op = 1
+            if(this.props.found){
+              op = 0.6
+            }else{
+              op = 1
+            }
+          
+            front = {
+              backfaceVisibility: 'hidden',
+              cursor: 'pointer',
+              transition: '0.6s',
+              display: 'flex',
+              position: 'absolute',
+              transform: 'rotateY(180deg)'
+            }
+
+            back = {
+              backfaceVisibility: 'hidden',
+              display: 'flex',
+              opacity: op,
+              transition: '0.6s',
+              position: 'absolute',
+              transform: 'rotateY(0deg)'
+            }
+          }
+          
+          const img = {
+            width: '130px',
+            height: '200px',
+            borderRadius: '10px',
+            border: '2px double black'
+          }
+          
+          
+          return (<div style={carta} onClick={() => this.mouseClick(this.props.animal)}>
+          
+                      <div style={front}>
+                        <img style={img} src={"./backImage.png"} />
+                      </div>
+
+                      <div style={back}>
+                        <img style={img} src={"./" + this.props.animal + ".PNG"} />
+                      </div>
+                    
+                  </div>)
+        }
+        
+        mouseClick(animal) {
+          this.props.click(animal)
+        }
+      }
+      
+      class Texto extends React.Component {
+        render(){
+          
+          var style = {}
+          
+          
+          
+          if(this.props.mensajeFinal){
+            
+            style = {
+              textAlign: 'center'
+            }
+          }else{
+            if(this.props.finished){
+              style = {
+                textAlign: 'center'
+              }
+            }else{
+              style = {
+                textAlign: 'center',
+                display: 'none'
+              }
+            }
+          
+            
+          }
+          
+          const inside = {
+            margin: 'auto',
+            padding: '20px',
+            fontFamily: 'Courier New'
+          }
+          
+          return (<div style={style}>
+                    <h1 style={inside}>{this.props.text}</h1>
+                 </div>)
+        }
+        
+      }
+      
+      
+      class Game extends React.Component {
+        constructor(props) {
+          super(props)
+          
+          this.state = {
+            animals: ['CaballoMar', 'Cabra', 'Cerdo', 'Elefante',
+            'Foca', 'Kiwi', 'Manati', 'Quetzal'],
+            randomAnimals: [],
+            duplicatedAnimals: [],
+            realAnimals: [],
+            openedCards: [],
+            found: 0,
+            movements: 0,
+            finished: false
+          }
+          
+          this.begin()
+        }
+        
+        begin(){
+          this.state.duplicatedAnimals = this.state.animals.concat(this.state.animals)
+          this.state.randomAnimals = this.getRandom(this.state.duplicatedAnimals)
+          
+          var f = []
+          
+          this.state.randomAnimals.map((name) =>  {
+            f.push({
+              animal: name,
+              close: true,
+              found: false
+            })
+          })
+          this.state.realAnimals = [...f]
+          
+        }
+        
+        getRandom(array){
+          var rand = []
+          var arr = [...array]
+          
+          for(var i = 0; i < array.length; i++){
+            const a = Math.floor(Math.random() * (arr.length))
+            rand.push(arr.splice(a, 1)[0])
+          }
+          
+          return rand
+        }
+        
+        sumMovement(){
+          
+          var num = this.state.movements
+          num = num + 1
+          
+          this.setState({
+            movements: num
+          })
+        }
+        
+        getFloor(x){
+          return Math.floor(x)
+        }
+               
+        handleKeyDown(animal, pos){
+          var animal = {
+            animal,
+            pos
+          }
+          
+          var oa = this.state.openedCards
+          var ra = this.state.realAnimals
+          
+          if(!ra[pos].found){
+            if(this.state.openedCards.length != 2){
+              ra[pos].close = false
+
+              if(oa.length == 0){
+                oa.push(animal)
+              }else{
+                if(JSON.stringify(oa[0]) != JSON.stringify(animal)){
+                  oa.push(animal)
+                }
+              }
+
+              this.setState({
+                realAnimals: ra,
+                openedCards: oa
+              })
+            }         
+          
+          }
+          
+          if(this.state.openedCards.length == 2){
+            setTimeout(() => {
+              this.verifyCards()
+            }, 1500)
+          }
+          
+        }
+        
+        verifyCards(){
+          this.sumMovement()
+          
+          var final = [...this.state.realAnimals]
+          var f = this.state.found
+          
+          if(this.state.openedCards[0].animal == this.state.openedCards[1].animal){
+            final[this.state.openedCards[0].pos].found = true
+            final[this.state.openedCards[1].pos].found = true
+            f = f + 1
+          } else{
+            final[this.state.openedCards[0].pos].close = true
+            final[this.state.openedCards[1].pos].close = true
+          }
+          
+          if(f == 8){
+            this.setState({
+              finished: true
+            })
+          }
+          
+          this.setState({
+            realAnimals: final,
+            openedCards: [],
+            found: f
+          })
+        }
+
+        render() {
+          const style = {
+            display: 'flex',
+            flexWrap: 'wrap',
+            flexDirection: 'row',
+            justifyContent: 'space-around'
+          }
+          
+          const background = {
+            backgroundColor: 'lightblue',
+          }
+          
+          return (
+            <div style={background} >
+            
+              <Texto mensajeFinal={true} text={"Movimientos: " + this.getFloor(this.state.movements)}/>
+              <Texto mensajeFinal={true} text={"Encontradas " + this.state.found + "/" + this.state.animals.length}/>
+              
+              <Texto mensajeFinal={false} text={"Juego completado!"} finished={this.state.finished}/>
+              
+              <div style={style} >
+                {
+                  this.state.realAnimals.map((animal, index) => {
+                    return <Card animal={animal.animal} click={() => {this.handleKeyDown(animal.animal, index)}} close={animal.close} found={animal.found} key={index}/>
+                  })
+                }
+              </div>
+            </div>
+            
+            
+          )
+        }
+      }
+      
+      ReactDOM.render(
+        <Game />,
+        document.getElementById('root')
+      )
+    
+    </script>
+  </body>
+</html>
+

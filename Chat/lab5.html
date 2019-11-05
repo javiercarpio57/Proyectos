@@ -1,0 +1,293 @@
+<html>
+    <body>
+
+
+        <script>
+            const myUsername = "myUsername"
+
+
+            const messages = document.createElement("ul");
+            const footer = document.createElement("div")
+            const sendContainer = document.createElement("div")
+            const divMessages = document.createElement("div");
+
+            const input = document.createElement("input")
+            const button = document.createElement("button")
+
+            messages.style = `
+                
+                list-style:none;
+                margin: 0 auto;
+                padding: 0px 5px 0px 5px;
+            `
+            
+            input.style = `
+                height: 50;
+                width: 90%;
+            `
+            input.placeholder = "Escriba un mensaje..."
+            input.maxLength = 140
+
+            button.style = `
+                height: 50;
+                width: 10%;
+                border: none;
+                color: white;
+                font-size: 16px;
+                background-color: #4CAF50;
+            `
+            button.append("Enviar")
+            button.addEventListener("mouseover", () => {
+                button.style = `
+                    height: 50;
+                    width: 10%;
+                    border: none;
+                    color: white;
+                    font-size: 16px;
+                    background-color: #80ced6;
+                `
+            })
+            button.addEventListener("mouseout", () => {
+                button.style = `
+                    height: 50;
+                    width: 10%;
+                    border: none;
+                    color: white;
+                    font-size: 16px;
+                    background-color: #4CAF50;
+                `
+            })
+
+            divMessages.append(messages)
+            divMessages.style = `
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 93%;
+                width: 100%;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                background-image: url('chat.png');
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+            `
+            
+
+            document.body.append(divMessages)
+            
+            sendContainer.append(input)
+            sendContainer.append(button)
+
+            sendContainer.style = `
+                display: flex;
+            `
+
+            footer.append(sendContainer)
+            footer.style = `
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 50px;
+            `
+            
+            button.id = `enviarBtn`
+            document.body.append(footer)
+            document.body.style = `
+                overflow-x: hidden;
+            `
+            var colors = []
+            var primeraVez = true;
+            var enviandoMensaje = false;
+
+            var totalMensajes = []
+            var mensajeBool = true;
+
+            function getMessages(){
+                
+
+                fetch('http://msdeus.site:7000', {
+                    method: 'GET'
+                }).then(response => {
+                    return response.json()
+                }).then(response => {
+
+                    // messages.innerHTML = ""
+                    response.forEach(element => {
+                        const json = {
+                            username: element.username,
+                            chatmessage: element.chatmessage
+                        }
+
+                        if(totalMensajes.indexOf(JSON.stringify(json)) === -1){
+                            totalMensajes.push(JSON.stringify(json))
+
+                            const li = document.createElement("li")
+                            const strong = document.createElement("strong")
+
+                            if(element.username != myUsername){
+
+                                var bool = false
+                                colors.forEach(e => {
+                                    if(element.username == e.user){
+                                        bool = true
+                                        strong.style = `
+                                            color: ${e.color}
+                                        `
+                                    }
+                                });
+                                if(!bool){
+                                    const r = Math.floor(Math.random() * 256)
+                                    const g = Math.floor(Math.random() * 256)
+                                    const b = Math.floor(Math.random() * 256)
+                                    const c = "rgb(" + r + ", " + g + ", " + b + ");"
+                                    a = {
+                                        user: element.username,
+                                        color: c
+                                    }
+                                    colors.push(a)
+                                    strong.style = `
+                                        color: ${c}
+                                    `
+                                }
+
+                                li.style = `
+                                    display: block;
+                                    margin-bottom: 10px;
+                                    padding: 10px;
+                                    width: 250px;
+                                    border-radius: 8px;
+
+                                    background: #e3e3e3;
+                                    float: left;
+                                    margin-right: 50%;
+                                    border-top-left-radius: 0;
+                                    word-break: break-all;
+                                `
+
+                                strong.innerHTML = element.username + "<br><br>"
+                                li.append(strong)
+                                li.append(element.chatmessage)
+                                
+                            }else{
+
+                                li.style = `
+                                    display: inline-block;
+                                    margin-bottom: 10px;
+                                    padding: 10px;
+                                    width: 250px;
+                                    border-radius: 8px;
+
+                                    background: #6CCE66;
+                                    border-top-right-radius: 0;
+                                    color: #fff;
+                                    margin-left: 50%;
+                                    float: right;
+                                    word-break: break-all;
+                                `
+                                li.append(element.chatmessage)
+                            }
+
+                            element.chatmessage.split(" ").forEach(mes => {
+                                if(mes.includes("PNG") || mes.includes("png") || mes.includes("JPG") ||
+                                    mes.includes("jpg") || mes.includes("JPEG") || mes.includes("jpeg")){
+                                    
+                                    checkImageExists(mes, function(existsImage){
+                                        if(existsImage == true) {
+                                            const p = document.createElement("p") 
+                                            p.innerHTML = "<br>"
+                                            
+                                            li.append(p)
+                                            var img = document.createElement("img")
+                                            img.src = mes
+                                            img.style = `
+                                                width: 200px;
+                                                height: 200px;
+                                            `
+                                            li.append(img)
+                                        }
+                                    })
+                                }else if(mes.includes(".com") || mes.includes(".net") || mes.includes(".org") ||
+                                mes.includes(".info") || mes.includes(".biz") || mes.includes(".edu") || mes.includes("http")
+                                || mes.includes("file")){
+                                    
+                                    const p = document.createElement("p") 
+                                    p.innerHTML = "<br>"
+                                    
+                                    li.append(p)
+
+                                    const iframe = document.createElement("iframe")
+                                    iframe.setAttribute("src", mes)
+                                    iframe.style = `
+                                        width: 80%;
+                                        height: 50%;
+                                    `
+                                    li.append(iframe)
+                                }
+                            });
+
+                            messages.append(li)
+                        }
+
+                    })
+
+                }).then(() => {
+                    if(primeraVez){
+                        divMessages.scrollTop = divMessages.scrollHeight;
+                        primeraVez = false
+                    }
+                }).then(() => {
+                    if(enviandoMensaje){
+                        console.log("enviando mensaje")
+                        divMessages.scrollTop = divMessages.scrollHeight;
+                        enviandoMensaje = false
+                    }
+                })
+            }
+
+            function checkImageExists(imageUrl, callBack) {
+                var imageData = new Image();
+                imageData.onload = function() {
+                    callBack(true);
+                };
+                imageData.onerror = function() {
+                    callBack(false);
+                };
+                imageData.src = imageUrl;
+            }
+
+            getMessages()            
+
+            button.onclick = function() {
+                const val = input.value.trim()
+                input.value = ""
+
+                console.log('clicked...')
+                fetch('http://msdeus.site:7000', {
+                    method: 'POST',
+                    body: `
+                        {
+                            "username": "${myUsername}",
+                            "chatmessage": "${val}"
+                        }
+                    `
+                }).then(() => {
+                    enviandoMensaje = true
+                }).then(() => {
+                    getMessages()
+                })
+            }
+
+            input.addEventListener("keydown", function(event){
+                if(event.keyCode == 13){
+                    event.preventDefault()
+                    console.log("Presione 'enter'")
+                    document.getElementById("enviarBtn").click()
+                }
+            })
+
+            setInterval(getMessages, 5000)
+
+        </script>
+    </body>
+</html>

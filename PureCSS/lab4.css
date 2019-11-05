@@ -1,0 +1,290 @@
+div#principal > div:first-child{
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 250px;
+    height: 150px;
+    background: pink;
+    top: 33%;
+    left: 30%;
+    border: 2px solid white;
+}
+
+.foot2 {
+    position: absolute;
+    border-radius: 36% 65% 28% 73% / 30% 77% 40% 61% ;
+    width: 170px;
+    height: 380px;
+    background: rgb(182, 39, 69);
+    top: 55%;
+    left: 82%;
+    border: 2px solid white;
+    z-index: -1;
+    transform: rotate(-45deg);
+}
+
+
+div#principal > div:nth-child(3){
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 500px;
+    height: 500px;
+    background: pink;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 50%;
+    top: 15%;
+    z-index: 0;
+    border: 2px solid white;
+    background-image: radial-gradient(pink 50%, white 120%);
+}
+
+
+
+.hand2{
+    position: absolute;
+    border-radius: 50% 50% 20% 27% / 50% 50% 50% 50% ;
+    width: 170px;
+    height: 210px;
+    background: pink;
+    top: 5%;
+    left: 94.5%;
+    border: 2px solid white;
+    transform: rotate(55deg);
+}
+
+.position {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.foot {
+    position: absolute;
+    border-radius: 59% 40% 34% 48% / 40% 54% 40% 53% ;
+    width: 380px;
+    height: 170px;
+    background: rgb(182, 39, 69);
+    top: 82%;
+    left: 52%;
+    border: 2px solid white;
+}
+
+
+
+.curve{
+    position: absolute;
+    width:430px; height:100px;  
+    border:solid 5px rgb(160, 35, 61, 0.5);
+    border-color:rgb(160, 35, 61, 0.5) transparent transparent transparent;
+    border-radius: 50%/100px 100px 0 0;
+    transform: rotate(8deg);
+    top: 40%;
+    left: -11.5%;
+}
+
+.eyeUp {
+    position: absolute;
+    background: black;
+    width: 50px;
+    height: 40px;
+    border-radius: 50% / 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    top: 20%;
+    left: 20%;
+}
+
+.eyeUp::before{
+    content: "";
+    position: absolute;
+    clip-path: inset(5% 35% 15% 10%);
+    background: black;
+    height: 70px;
+    width: 90px;
+    top: 80%;
+    left: -16.5%;
+}
+
+.eyeDown {
+    position: absolute;
+    background: black;
+    width: 50px;
+    height: 40px;
+    border-radius: 50% / 100%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    top: 37%;
+    left: 20%;
+}
+
+.eyeDown::before{
+    content: "";
+    position: absolute;
+    clip-path: inset(5% 35% 15% 10%);
+    background: black;
+    height: 30px;
+    width: 90px;
+    top: -70%;
+    left: -16.5%;
+}
+
+.eyeUp2 {
+    position: absolute;
+    background: black;
+    width: 50px;
+    height: 40px;
+    border-radius: 50% / 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    top: 20%;
+    left: 40%;
+}
+
+.eyeUp2::after{
+    content: "";
+    position: absolute;
+    clip-path: inset(5% 35% 15% 10%);
+    background: black;
+    height: 70px;
+    width: 90px;
+    top: 80%;
+    left: -16.5%;
+}
+
+.eyeDown2 {
+    position: absolute;
+    background: black;
+    width: 50px;
+    height: 40px;
+    border-radius: 50% / 100%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    top: 37%;
+    left: 40%;
+}
+
+.eyeDown2::after{
+    content: "";
+    position: absolute;
+    clip-path: inset(5% 35% 15% 10%);
+    background: black;
+    height: 30px;
+    width: 90px;
+    top: -70%;
+    left: -16.5%;
+}
+
+.eyeWhite {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 25px;
+    height: 50px;
+    background: white;
+    top: 22%;
+    left: 22.5%;
+}
+
+.eyeWhite2 {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 25px;
+    height: 50px;
+    background: white;
+    top: 22%;
+    left: 42.5%;
+}
+
+.eyeBlue {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 40px;
+    height: 50px;
+    top: 34%;
+    left: 20.9%;
+    background-image: linear-gradient(to bottom, black 50%, blue);
+}
+
+.eyeBlue2 {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 40px;
+    height: 50px;
+    top: 34%;
+    left: 40.9%;
+    background-image: linear-gradient(to bottom, black 50%, blue);
+}
+
+.mouth {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 40px;
+    height: 70px;
+    top: 50%;
+    left: 30%;
+    transform: rotate(-10deg);
+    background: rgb(151, 22, 33);
+    background-image: linear-gradient(to bottom, black 5%, rgb(151, 22, 33));
+}
+
+.cap {
+    position: absolute;
+    clip-path: polygon(66% 1%, 61% 3%, 57% 6%, 54% 10%, 52% 15%, 51% 21%, 51% 28%, 52% 35%, 54% 39%, 57% 33%, 61% 30%, 65% 28%, 68% 27%, 71% 26%, 74% 27%, 77% 27%, 79% 25%, 80% 19%, 81% 11%, 80% 5%, 76% 1%, 72% 1%, 69% 1%);
+    background: rgb(233, 45, 61);
+    width: 1500px;
+    height: 620px;
+    left: -29%;
+    top: -10%;
+    transform: rotate(10deg);
+}
+
+.logo {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 150px;
+    height: 120px;
+    background: white;
+    left: 56%;
+    top: 7%;
+    transform: rotate(-7deg);
+}
+
+.cap2 {
+    position: absolute;
+    border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    width: 380px;   
+    height: 110px;
+    top: 22%;
+    left: 50%;
+    background: transparent;
+    border-top: 60px solid rgb(206, 28, 43);
+    /* border: 2px solid black; */
+    /* border-left: 10px solid rgb(206, 28, 43); */
+    transform: rotate(-5deg);
+}
+
+@font-face{
+    font-family: MarioBros;
+    src: url(SuperMario256.ttf);
+}
+
+p {
+    font-family: MarioBros;
+    color: rgb(206, 28, 43);
+    font-size: 100px;
+    transform: rotate(-15deg);
+}
+
+div#principal > div:last-child {
+    position: absolute;
+    left: 57%;
+    top: -10%;
+}
+
+#principal {
+    display: flex;
+    position: relative;
+    margin: auto;
+    left: -15%;
+    width: 1000px;
+    height: 558px;
+}
